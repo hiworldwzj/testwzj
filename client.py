@@ -19,6 +19,7 @@ def start_client(host='127.0.0.1', port=65432, message='Hello, Server!'):
             delay = end_time - start_time
             print(f"接收到数据: {data.decode()}")
             print(f"发送到接收的延迟: {delay:.6f} 秒")
+            time.sleep(1)
 
 if __name__ == "__main__":
     start_client()
