@@ -9,7 +9,7 @@ def start_client(host='127.0.0.1', port=65432, message='Hello, Server!'):
         # 记录发送时间
         while True:
             start_time = time.time()
-            client_socket.sendall(message.encode())
+            client_socket.send(message.encode())
             print(f"发送数据: {message}")
     
             data = client_socket.recv(1024)
