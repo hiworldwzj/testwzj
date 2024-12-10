@@ -1,20 +1,23 @@
 import socket
+import time
 
-def start_server(host='127.0.0.1', port=65432):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.bind((host, port))
-        server_socket.listen()
-        print(f"服务器启动，监听 {host}:{port}")
-        
-        conn, addr = server_socket.accept()
-        with conn:
-            print(f"连接来自 {addr}")
-            while True:
-                data = conn.recv(1024)
-                if not data:
-                    break
-                print(f"接收到数据: {data.decode()}")
-                conn.sendall(data)  # 回传接收到的数据
+def start_client(host='127.0.0.1', port=65432, message='Hello, Server!'):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((host, port))
+        print("已连接到服务器")
+
+        # 记录发送时间
+        start_time = time.time()
+        client_socket.sendall(message.encode())
+        print(f"发送数据: {message}")
+
+        data = client_socket.recv(1024)
+        end_time = time.time()
+
+        # 计算延迟
+        delay = end_time - start_time
+        print(f"接收到数据: {data.decode()}")
+        print(f"发送到接收的延迟: {delay:.6f} 秒")
 
 if __name__ == "__main__":
-    start_server()
+    start_client()
